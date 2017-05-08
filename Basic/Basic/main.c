@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+//some basic algorithm
 int main(int argc, const char * argv[]) {
     int a = 0;
     //char temp = ' ';
