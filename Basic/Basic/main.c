@@ -44,5 +44,6 @@ int main(int argc, const char * argv[]) {
     //scanf("%d", &a);
     //printf("your num is: %d\n", a);
     printf("Hello, World!\n");
+    printf("hello");
     return 0;
 }
