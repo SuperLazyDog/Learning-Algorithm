@@ -10,6 +10,9 @@
 #define N 5
 
 int main(int argc, const char * argv[]) {
+    //--------------------------------------------------------------------------
+    //                               数组的使用
+    //--------------------------------------------------------------------------
     int a[N];
     int i;
     for(i = 0; i < N; i++) {
@@ -24,5 +27,6 @@ int main(int argc, const char * argv[]) {
     printf("a Data Length: %lu\na[0] Data Length: %lu\n", sizeof(a), sizeof(a[0]));
     printf("Array Length: %lu\n", sizeof(a)/sizeof(a[0]));
     puts("over");
+    
     return 0;
 }
