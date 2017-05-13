@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #define N 5
 #define ARRAY_SIZE 15
 //--------------------------------------------------------------------------
@@ -28,6 +29,9 @@ void createRandomTest();
 bool getRandomArray(int howMany, int *arrayTemp);
 bool reverseArray(int *array);
 bool showArray(int *array);
+//进制转换
+bool convert(int origin, int form, char *to);
+bool reverseStr(char *origin);
 
 //--------------------------------------------------------------------------
 //                                 主函数
@@ -54,6 +58,14 @@ int main(int argc, const char * argv[]) {
     showArray(array);
     printf("%d %d %d\n", *(array+3), *array, *(array+1));
     free(array);
+    //--------------------------------------------------------------------------
+    //                              进制转换
+    //--------------------------------------------------------------------------
+    char str[128];
+    convert(15123123, 2, str);
+    puts(str);
+    reverseStr(str);
+    puts(str);
     return 0;
 }
 //-------------------------------------------------------------------------------------------
@@ -135,5 +147,34 @@ bool showArray(int *array) {
         array++;
     }
     array -= ARRAY_SIZE;
+    return true;
+}
+//--------------------------------------------------------------------------
+//                              进制转换
+//--------------------------------------------------------------------------
+bool convert(int origin, int form, char *to) {
+    //变10进制 abcd = a*10^3 + b*10^2 + c*10^1 + d*10^0
+    //m进制变n进制  abcd  先变10进制 X = a*m^3 + b*m^2 + c*m^1 + d*m^0
+    //                      然后 (X/n X/n^2 X/n^3 X/n^4).reverse
+    char *conversion = "0123456789ABCDEF";
+    int count = 0;
+    while(origin) {
+        to[count++] = conversion[origin%form];
+        origin /= form;
+        //printf("%c  ", conversion[origin%form]);
+    }
+    to[count] = '\0';
+    return true;
+}
+bool reverseStr(char *origin) {
+    const int length = (int)strlen(origin);
+    int i;
+    for(i=0; i<length/2; i++) {
+        char temp = origin[i];
+        char temp2 = origin[length-1-i];
+        origin[i] = temp2;
+        origin[length-1-i] = temp;
+        //printf("%c  %c\n", origin[i], origin[length-1-i]);
+    }
     return true;
 }
