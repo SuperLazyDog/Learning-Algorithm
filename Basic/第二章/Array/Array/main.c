@@ -32,6 +32,8 @@ bool showArray(int *array);
 //进制转换
 bool convert(int origin, int form, char *to);
 bool reverseStr(char *origin);
+//素数
+int *searchPrimeNum(int within);
 
 //--------------------------------------------------------------------------
 //                                 主函数
@@ -62,10 +64,16 @@ int main(int argc, const char * argv[]) {
     //                              进制转换
     //--------------------------------------------------------------------------
     char str[128];
-    convert(15123123, 2, str);
+    convert(0, 16, str);
     puts(str);
     reverseStr(str);
     puts(str);
+    //--------------------------------------------------------------------------
+    //                                素数
+    //--------------------------------------------------------------------------
+    int *temp = (int *)malloc(1024*sizeof(int));
+    temp = searchPrimeNum(1000);
+    printf("%d\n", temp[21]);
     return 0;
 }
 //-------------------------------------------------------------------------------------------
@@ -158,6 +166,11 @@ bool convert(int origin, int form, char *to) {
     //                      然后 (X/n X/n^2 X/n^3 X/n^4).reverse
     char *conversion = "0123456789ABCDEF";
     int count = 0;
+    if(origin == 0) {
+        *to = '0';
+        *(to+1) = '\0';
+        return true;
+    }
     while(origin) {
         to[count++] = conversion[origin%form];
         origin /= form;
@@ -177,4 +190,27 @@ bool reverseStr(char *origin) {
         //printf("%c  %c\n", origin[i], origin[length-1-i]);
     }
     return true;
+}
+//--------------------------------------------------------------------------
+//                                素数
+//--------------------------------------------------------------------------
+int *searchPrimeNum(int within) {
+    int temp[1024];
+    int i,j,count=0;
+    unsigned long timesCount = 0;
+    for(i = 2; i < within; i++) {
+        for(j = 2; j < i; j++) {
+            timesCount++;
+            if (!(i%j)) {
+                break;
+            }
+        }
+        if(j == i) {
+            temp[count] = i;
+            printf("%d  \n", temp[count]);
+            count++;
+        }
+    }
+    printf("timeCounts = %lu", timesCount);
+    return temp;
 }
