@@ -33,7 +33,10 @@ bool showArray(int *array);
 bool convert(int origin, int form, char *to);
 bool reverseStr(char *origin);
 //素数
+//v1.0
 int *searchPrimeNum(int within);
+//v2.0
+int *searchPrimeNumV2_0(int within);
 
 //--------------------------------------------------------------------------
 //                                 主函数
@@ -71,10 +74,23 @@ int main(int argc, const char * argv[]) {
     //--------------------------------------------------------------------------
     //                                素数
     //--------------------------------------------------------------------------
+    //version 1.0
     int *temp = (int *)malloc(1024*sizeof(int));
+    printf("-------------------------------------------\n");
+    printf("                  V1.0\n");
+    printf("-------------------------------------------\n");
     temp = searchPrimeNum(1000);
+    puts("");
     printf("%d\n", temp[21]);
+    //version 2.o
+    //free(temp);
+    //temp = (int *)malloc(1024*sizeof(int));
+    printf("-------------------------------------------\n");
+    printf("                  V2.0\n");
+    printf("-------------------------------------------\n");
+    temp = searchPrimeNumV2_0(1000);
     return 0;
+    
 }
 //-------------------------------------------------------------------------------------------
 //                                         函数
@@ -194,11 +210,13 @@ bool reverseStr(char *origin) {
 //--------------------------------------------------------------------------
 //                                素数
 //--------------------------------------------------------------------------
+//version1.0
+//最简单的一种，单纯的除以2...n-1
 int *searchPrimeNum(int within) {
-    int temp[1024];
+    int *temp = (int *)malloc(1024*sizeof(int));
     int i,j,count=0;
     unsigned long timesCount = 0;
-    for(i = 2; i < within; i++) {
+    for(i = 2; i <= within; i++) {
         for(j = 2; j < i; j++) {
             timesCount++;
             if (!(i%j)) {
@@ -212,5 +230,38 @@ int *searchPrimeNum(int within) {
         }
     }
     printf("timeCounts = %lu", timesCount);
+    printf("count = %d\n", count);
     return temp;
 }
+
+
+//version2.0
+//只算0~n-1的素数
+int *searchPrimeNumV2_0(int within) {
+    int i, j, count = 1;
+    unsigned long timesCount = 0;
+    bool isPrime = true;
+    int *temp = (int *)malloc(1024*sizeof(int));
+    temp[0] = 2;
+    for (i = 3; i <= within; i++) {
+        for(j = 0; j < count; j++) {
+            timesCount++;
+            if(i%temp[j] == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        if (isPrime) {
+            isPrime = false;
+            temp[count] = i;
+            printf("%d  \n", temp[count]);
+            count++;
+        }
+        isPrime = true;
+    }
+    printf("timesCounts: %lu\n", timesCount);
+    printf("count = %d\n", count);
+    return temp;
+}
+
+
